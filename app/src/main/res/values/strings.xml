@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ApplicationTASK4secondattemp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="title_activity_transaction">Transaction</string>
+    <string name="title_activity_synchronization">Synchronization</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
