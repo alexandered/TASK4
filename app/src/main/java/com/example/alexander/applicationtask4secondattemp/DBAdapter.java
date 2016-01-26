@@ -88,7 +88,7 @@ public class DBAdapter {
 		c.close();
 	}
 	public Cursor selectAllExpense(){
-		Cursor c = db.rawQuery("select description, amount from mainTrans where type like ?", new String[]{"EXPENSE"});
+		Cursor c = db.rawQuery("select _id, description, amount from mainTrans where type like ?", new String[]{"EXPENSE"});
 		return c;
 	}
 
@@ -98,7 +98,7 @@ public class DBAdapter {
 	}
 
 	public Cursor selectAllIncome(){
-		Cursor c = db.rawQuery("select description, amount from mainTrans where type like ?", new String[]{"INCOME"});
+		Cursor c = db.rawQuery("select description, amount, _id from mainTrans where type like ?", new String[]{"INCOME"});
 		return c;
 	}
 	// Return all data in the database.
@@ -125,7 +125,7 @@ public class DBAdapter {
 	}
 	
 	// Change an existing row to be equal to new data.
-	public boolean updateRow(long rowId, String description, String amount, String type) {
+	public boolean updateRow(String rowId, String description, String amount, String type) {
 		String where = KEY_ROWID + "=" + rowId;
 		ContentValues newValues = new ContentValues();
 		newValues.put(KEY_DESCRIPTION, description);

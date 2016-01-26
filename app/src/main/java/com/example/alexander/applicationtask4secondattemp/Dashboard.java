@@ -1,18 +1,25 @@
 package com.example.alexander.applicationtask4secondattemp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.json.JSONArray;
@@ -24,18 +31,20 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     DBAdapter myDb;
     NavigationView navigation;
     TextView textViewBalance, textViewIncomenett, textViewExpensenett;
+    Activity currentActivity;
+    TextView hiddenID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ListView listViewatas = (ListView) findViewById(R.id.listViewatas);
+        final ListView listViewatas = (ListView) findViewById(R.id.listViewatas);
         ListView listViewbawah = (ListView) findViewById(R.id.listViewbawah);
         textViewBalance = (TextView) findViewById(R.id.textViewnett);
         textViewExpensenett = (TextView) findViewById(R.id.textViewTotalExpensenett);
         textViewIncomenett  = (TextView) findViewById(R.id.textViewTotalIncomenett);
-
+        currentActivity = this;
         navigation = (NavigationView)findViewById(R.id.navigation);
         navigation.setNavigationItemSelectedListener(this);
 
@@ -82,8 +91,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         while (cursorExpense.moveToNext()) {
             StringBuffer buffer = new StringBuffer();
-            buffer.append("{ description : " + cursorExpense.getString(0) + ",");
-            buffer.append("amount : " + cursorExpense.getString(1) + "}");
+            buffer.append("{ Id : " + cursorExpense.getInt(0) + ",");
+            buffer.append("description : " + cursorExpense.getString(1) + ",");
+            buffer.append("amount : " + cursorExpense.getString(2) + "}");
             JSONObject expense = new JSONObject();
             try {
                 expense = new JSONObject(String.valueOf(buffer));
@@ -107,7 +117,56 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         CustomAdapter alexadapter = new CustomAdapter(this, listdata);
         listViewatas.setAdapter(alexadapter);
         listViewbawah.setAdapter(alexadapteri);
+
+
+        listViewatas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, final long id) {
+                AlertDialog.Builder alertdialog = new AlertDialog.Builder(currentActivity);
+                alertdialog.setMessage("Whatcugonnado?").setTitle("Notification");
+                alertdialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String ID = ((TextView) view.findViewById(R.id.hiddenID)).getText().toString();
+
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogLayout = inflater.inflate(R.layout.alertdialogupdate, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
+                        builder.setView(dialogLayout);
+                        builder.show();
+                        final EditText editTextUpdateDesc = (EditText)dialogLayout.findViewById(R.id.editTextUpdateDesc);
+                        final EditText editTextUpdateAm = (EditText)dialogLayout.findViewById(R.id.editTextUpdateAmount);
+
+                        Button btn_update = (Button)dialogLayout.findViewById(R.id.button_update);
+                        btn_update.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            if (!TextUtils.isEmpty(editTextUpdateDesc.getText()) && !TextUtils.isEmpty(editTextUpdateAm.getText())){
+                                myDb.updateRow(ID, editTextUpdateDesc.getText().toString(), editTextUpdateAm.getText().toString(), "EXPENSE");
+                                editTextUpdateDesc.setText("");
+                                editTextUpdateAm.setText("");
+                                Intent refresh = new Intent(Dashboard.this, Dashboard.class);
+                                startActivity(refresh);
+                            }
+                            }
+                        });
+
+                    }
+                });
+                alertdialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog = alertdialog.create();
+                dialog.show();
+            }
+        });
+
+
     }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -129,7 +188,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
 
 
-class CustomAdapter extends ArrayAdapter<String>{
+
+    class CustomAdapter extends ArrayAdapter<String>{
     private ArrayList<String> user_list;
         JSONObject JSONuserlist;
     public CustomAdapter(Context context, ArrayList<String> listdata) {
@@ -143,6 +203,7 @@ class CustomAdapter extends ArrayAdapter<String>{
         View fragmentlistview = alexinflater.inflate(R.layout.fragment_listview_item, parent, false);
         TextView DescriptionExpense = (TextView)fragmentlistview.findViewById(R.id.textViewDesc);
         TextView AmountExpense = (TextView)fragmentlistview.findViewById(R.id.textViewAm);
+        hiddenID = (TextView)fragmentlistview.findViewById(R.id.hiddenID);
         try {
             JSONuserlist = new JSONObject(user_list.get(position));
         } catch (JSONException e) {
@@ -151,6 +212,7 @@ class CustomAdapter extends ArrayAdapter<String>{
         try {
             DescriptionExpense.setText(JSONuserlist.getString("description").trim());
             AmountExpense.setText(JSONuserlist.getString("amount"));
+            hiddenID.setText(JSONuserlist.getInt("id"));
             } catch (Exception e) {
                     e.printStackTrace();
                 }
