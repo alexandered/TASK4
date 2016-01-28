@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Transaction extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 NavigationView navigation;
@@ -40,6 +41,7 @@ Button btn_expense,btn_income;
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(editTextExpenseA.getText())&&!TextUtils.isEmpty(editTextExpenseD.getText())){
                     myDb.insertRow(editTextExpenseD.getText().toString(),editTextExpenseA.getText().toString(),"EXPENSE");
+                    Toast.makeText(Transaction.this, "Expense Saved", Toast.LENGTH_SHORT).show();
                     editTextExpenseD.setText("");
                     editTextExpenseA.setText("");
                 }
@@ -50,6 +52,7 @@ Button btn_expense,btn_income;
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(editTextIncomeA.getText())&&!TextUtils.isEmpty(editTextIncomeD.getText())){
                     myDb.insertRow(editTextIncomeD.getText().toString(),editTextIncomeA.getText().toString(),"INCOME");
+                    Toast.makeText(Transaction.this, "Income Saved", Toast.LENGTH_SHORT).show();
                     editTextIncomeD.setText("");
                     editTextIncomeA.setText("");
                 }

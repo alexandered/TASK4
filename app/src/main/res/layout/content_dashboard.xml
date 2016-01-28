@@ -56,8 +56,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:id="@+id/linearLayout3"
         android:layout_alignParentBottom="true"
-        android:id="@+id/linearLayout3">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="65dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,14 +71,14 @@
             android:layout_alignStart="@+id/viewBottom"
             android:layout_marginLeft="40dp"
             android:layout_marginStart="40dp"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewnett"
             android:layout_alignRight="@+id/viewBottom"
             android:layout_alignEnd="@+id/viewBottom"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -125,22 +128,4 @@
             android:id="@+id/textViewTotalIncomenett" />
     </LinearLayout>
 
-    <!--<EditText-->
-        <!--android:layout_width="180dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/editTextdescupdate"-->
-        <!--android:hint="Update Description"-->
-        <!--android:layout_below="@+id/linearLayout6"-->
-        <!--android:layout_alignLeft="@+id/linearLayout6"-->
-        <!--android:layout_alignStart="@+id/linearLayout6"-->
-        <!--android:layout_marginTop="29dp" />-->
-
-    <!--<EditText-->
-        <!--android:layout_width="150dp"-->
-        <!--android:hint="Update Amount"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/editTextamupdate"-->
-        <!--android:layout_alignTop="@+id/editTextdescupdate"-->
-        <!--android:layout_alignRight="@+id/linearLayout2"-->
-        <!--android:layout_alignEnd="@+id/linearLayout2" />-->
 </RelativeLayout>

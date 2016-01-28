@@ -45,6 +45,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         textViewBalance = (TextView) findViewById(R.id.textViewnett);
         textViewExpensenett = (TextView) findViewById(R.id.textViewTotalExpensenett);
         textViewIncomenett  = (TextView) findViewById(R.id.textViewTotalIncomenett);
+
         currentActivity = this;
 
         navigation = (NavigationView)findViewById(R.id.navigation);
@@ -60,6 +61,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         if (cursor_income.moveToFirst()) {
             textViewIncomenett.setText(String.valueOf(cursor_income.getInt(0)));
         }
+        int hasilbalance =(Integer.parseInt(String.valueOf(textViewIncomenett.getText())) - Integer.parseInt(String.valueOf(textViewExpensenett.getText())));
+        textViewBalance.setText(String.valueOf(hasilbalance));
 
         Cursor cursorExpense = myDb.selectAllExpense();
         Cursor cursorIncome  = myDb.selectAllIncome();

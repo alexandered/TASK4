@@ -50,7 +50,7 @@ public class Synchronization extends AppCompatActivity implements NavigationView
         Gson gson = new GsonBuilder()
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://polls.alextask4.org")
+                .baseUrl("http://private-3863a7-task41.apiary-mock.com")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         final UserAPI user_api = retrofit.create(UserAPI.class);
