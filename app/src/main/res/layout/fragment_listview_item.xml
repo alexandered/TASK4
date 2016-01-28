@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:textSize="10dp"
         android:id="@+id/hiddenID"
-        android:visibility="invisible"
+        android:visibility="visible"
+        android:gravity="right"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

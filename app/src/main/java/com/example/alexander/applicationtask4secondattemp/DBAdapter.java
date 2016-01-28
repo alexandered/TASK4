@@ -72,7 +72,7 @@ public class DBAdapter {
 	}
 	
 	// Delete a row from the database, by rowId (primary key)
-	public boolean deleteRow(long rowId) {
+	public boolean deleteRow(int rowId) {
 		String where = KEY_ROWID + "=" + rowId;
 		return db.delete(DATABASE_TABLE, where, null) != 0;
 	}
@@ -82,7 +82,7 @@ public class DBAdapter {
 		long rowId = c.getColumnIndexOrThrow(KEY_ROWID);
 		if (c.moveToFirst()) {
 			do {
-				deleteRow(c.getLong((int) rowId));				
+				deleteRow((int) c.getLong((int) rowId));
 			} while (c.moveToNext());
 		}
 		c.close();
@@ -111,6 +111,10 @@ public class DBAdapter {
 		return c;
 	}
 
+	public Cursor selectData(String id){
+		Cursor c = db.rawQuery("select _id from mainTrans where _id like ? limit 1", new String[]{id});
+		return c;
+	}
 
 
 	// Get a specific row (by rowId)
@@ -125,14 +129,15 @@ public class DBAdapter {
 	}
 	
 	// Change an existing row to be equal to new data.
-	public boolean updateRow(String rowId, String description, String amount, String type) {
+	public boolean updateRow(int rowId, String description, String amount, String type) {
 		String where = KEY_ROWID + "=" + rowId;
 		ContentValues newValues = new ContentValues();
 		newValues.put(KEY_DESCRIPTION, description);
 		newValues.put(KEY_AMOUNT, amount);
 		newValues.put(TYPE, type);
 		// Insert it into the database.
-		return db.update(DATABASE_TABLE, newValues, where, null) != 0;
+		return db.update(DATABASE_TABLE, newValues, where, null)!=0;
+
 	}
 	private static class DatabaseHelper extends SQLiteOpenHelper
 	{

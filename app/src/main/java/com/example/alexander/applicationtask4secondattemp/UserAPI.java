@@ -8,5 +8,5 @@ public interface UserAPI {
     @FormUrlEncoded
 
     @POST("/questions")
-    retrofit.Call<User> saveTransaction (@Field("Description")String description,@Field("Amount")Integer amount);
+    retrofit.Call<User> saveTransaction (@Field("Description")String description,@Field("Amount")String amount);
 }

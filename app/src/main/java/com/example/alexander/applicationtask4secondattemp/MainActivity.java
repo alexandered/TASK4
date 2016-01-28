@@ -32,19 +32,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings_dash) {
             Intent intent_dash = new Intent(this, Dashboard.class);
-//            finish();
             startActivity(intent_dash);
         } else if (item.getItemId() == R.id.action_settings_trans) {
             Intent intent_trans = new Intent(this, Transaction.class);
-//            finish();
             startActivity(intent_trans);
         } else if (item.getItemId() == R.id.action_settings_sync) {
             Intent intent_sync = new Intent(this, Synchronization.class);
-//            finish();
             startActivity(intent_sync);
         }
         return false;
-
-
     }
 }

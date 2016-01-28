@@ -34,7 +34,6 @@ public class Synchronization extends AppCompatActivity implements NavigationView
     NavigationView navigation;
     private GoogleApiClient client;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +60,16 @@ public class Synchronization extends AppCompatActivity implements NavigationView
         Cursor cursor  = myDb.getAllRows();
 
                 while (cursor.moveToNext()) {
-                    Call<User> call = user_api.saveTransaction(cursor.getString(1).toString(),Integer.parseInt(cursor.getString(0).toString()));
+                    Call<User> call = user_api.saveTransaction(cursor.getString(1).toString(),cursor.getString(0).toString());
                     call.enqueue(new Callback<User>() {
+
                         @Override
                         public void onResponse(final Response<User> response, Retrofit retrofit) {
                             int status = response.code();
                             final User s =  response.body();
                             Toast.makeText(Synchronization.this, s.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                         @Override
                         public void onFailure(Throwable t) {
                             Toast.makeText(Synchronization.this, "Gagal bro", Toast.LENGTH_SHORT).show();
